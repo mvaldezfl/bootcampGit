@@ -1,3 +1,4 @@
-Nombre: Anthonio Rueda
+Nombre: Anthonio Francisco Rueda
 Trabaja: Desarrollador 
 Edad: 30 anios
+Nacionalidad: Ecuatoriana
