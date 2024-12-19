@@ -923,6 +923,28 @@ export function agregarDocumentoElectronicoCM(
   }
 }
 
+export function autoSaveInfoCita0(values, idRegistro) {
+    try {
+      return async function (dispatch) {
+        dispatch({
+          type: AUTOSAVE_CITA,
+        });
+        console.log(values, idRegistro)
+        dispatch({
+          type: AUTOSAVE_CITA_SUCCESS,
+          payload: { id: idRegistro, values: values },
+        });
+      };
+    } catch (e) {
+      return async function (dispatch) {
+        dispatch({
+          type: AUTOSAVE_CITA_FAIL,
+        });
+        console.log(e);
+      };
+    }
+  }
+
 export function despacharReceta(idRegistro, username) {
   try {
     return async function (dispatch) {
@@ -965,6 +987,48 @@ export function despacharReceta(idRegistro, username) {
     console.log(e);
   }
 }
+
+export function autoSaveInfoCita1(values, idRegistro) {
+    try {
+      return async function (dispatch) {
+        dispatch({
+          type: AUTOSAVE_CITA,
+        });
+        dispatch({
+          type: AUTOSAVE_CITA_SUCCESS,
+          payload: { id: idRegistro, values: values },
+        });
+      };
+    } catch (e) {
+      return async function (dispatch) {
+        dispatch({
+          type: AUTOSAVE_CITA_FAIL,
+        });
+        console.log(e);
+      };
+    }
+  }
+
+export function autoSaveInfoCita2(values, idRegistro) {
+    try {
+      return async function (dispatch) {
+        dispatch({
+          type: AUTOSAVE_CITA,
+        });
+        dispatch({
+          type: AUTOSAVE_CITA_SUCCESS,
+          payload: { id: idRegistro, values: values },
+        });
+      };
+    } catch (e) {
+      return async function (dispatch) {
+        dispatch({
+          type: AUTOSAVE_CITA_FAIL,
+        });
+        console.log(e);
+      };
+    }
+  }
 
 export function autoSaveInfoCita(values, idRegistro) {
   try {
