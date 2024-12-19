@@ -70,21 +70,6 @@ import {
   AUTOSAVE_CITA,
   AUTOSAVE_CITA_FAIL,
   AUTOSAVE_CITA_SUCCESS,
-  ACTUALIZAR_ESTADO_COBRO,
-  ACTUALIZAR_ESTADO_COBRO_SUCCESS,
-  ACTUALIZAR_ESTADO_COBRO_FAIL,
-  REGISTRAR_COBERTURAS_RECETA,
-  REGISTRAR_COBERTURAS_RECETA_SUCCESS,
-  REGISTRAR_COBERTURAS_RECETA_FAIL,
-  OBTENER_COBERTURAS_ID,
-  OBTENER_COBERTURAS_ID_SUCCESS,
-  OBTENER_COBERTURAS_ID_FAIL,
-  EDITAR_COBERTURAS_RECETA,
-  EDITAR_COBERTURAS_RECETA_SUCCESS,
-  EDITAR_COBERTURAS_RECETA_FAIL,
-  DESCARGAR_RECETA_CITA,
-  DESCARGAR_RECETA_CITA_SUCCESS,
-  DESCARGAR_RECETA_CITA_FAIL,
 } from "../types/citasTypes.js";
 
 export function fecthCitas(userData, page, limit, filtros, sort) {
@@ -212,7 +197,8 @@ export function obtenerCita(id) {
     return async function (dispatch) {
       dispatch({ type: OBTENER_CITA_ID });
       let token = localStorage.getItem("token");
-      return axios.post(
+      return axios
+        .post(
           server + "/citas/obtenerCita",
           {
             id,
@@ -284,7 +270,7 @@ export function enviarLinkDatos(id) {
   }
 }
 
-export function editarCita(values, id, username) {
+export function editarCita(values, id) {
   try {
     return async function (dispatch) {
       dispatch({ type: EDITAR_CITA });
@@ -295,7 +281,6 @@ export function editarCita(values, id, username) {
           {
             values,
             id,
-            username,
           },
           {
             headers: {
@@ -938,7 +923,7 @@ export function agregarDocumentoElectronicoCM(
   }
 }
 
-export function despacharReceta(idRegistro, username, data) {
+export function despacharReceta(idRegistro, username) {
   try {
     return async function (dispatch) {
       dispatch({ type: DESPACHAR_RECETA });
@@ -949,7 +934,6 @@ export function despacharReceta(idRegistro, username, data) {
           {
             idCita: idRegistro,
             username,
-            data,
           },
           {
             headers: {
@@ -1000,322 +984,5 @@ export function autoSaveInfoCita(values, idRegistro) {
       });
       console.log(e);
     };
-  }
-}
-
-export function actualizarEstadoServicio(id, estado, username) {
-  try {
-    return async function (dispatch) {
-      dispatch({
-        type: ACTUALIZAR_ESTADO_COBRO,
-      });
-      let token = localStorage.getItem("token");
-      return axios
-        .post(
-          server + "/citas/actualizarEstadoServicio",
-          {
-            idServicio: id,
-            estadoCobro: estado,
-            username,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          dispatch({
-            type: ACTUALIZAR_ESTADO_COBRO_SUCCESS,
-
-            payload: res.data,
-          });
-          return res;
-        })
-        .catch((e) => {
-          dispatch({
-            type: ACTUALIZAR_ESTADO_COBRO_FAIL,
-          });
-
-          let res = {};
-          if (!!e.response) {
-            res = e.response;
-          }
-          return res;
-        });
-    };
-  } catch (e) {
-    return async function (dispatch) {
-      dispatch({
-        type: ACTUALIZAR_ESTADO_COBRO_FAIL,
-      });
-      console.log(e);
-    };
-  }
-}
-
-export function obtenerCoberturasId(idRegistro) {
-  try {
-    return async function (dispatch) {
-      dispatch({ type: OBTENER_COBERTURAS_ID });
-      let token = localStorage.getItem("token");
-      return axios
-        .post(
-          server + "/citas/obtenerCoberturasId",
-          {
-            idCita: idRegistro,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          dispatch({
-            type: OBTENER_COBERTURAS_ID_SUCCESS,
-            payload: res.data,
-          });
-          return res;
-        })
-        .catch((e) => {
-          dispatch({
-            type: OBTENER_COBERTURAS_ID_FAIL,
-            payload: {},
-          });
-          let res = {};
-          if (!!e.response) {
-            res = e.response;
-          }
-          return res;
-        });
-    };
-  } catch (e) {
-    return async function (dispatch) {
-      dispatch({
-        type: OBTENER_COBERTURAS_ID_FAIL,
-      });
-      console.log(e);
-    };
-  }
-}
-
-export function editarCoberturasReceta(data, idRegistro, username) {
-  try {
-    return async function (dispatch) {
-      dispatch({ type: EDITAR_COBERTURAS_RECETA });
-      let token = localStorage.getItem("token");
-      return axios
-        .post(
-          server + "/citas/editarCoberturasReceta",
-          {
-            data,
-            idCita: idRegistro,
-            username,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          dispatch({
-            type: EDITAR_COBERTURAS_RECETA_SUCCESS,
-            payload: res.data,
-          });
-          return res;
-        })
-        .catch((e) => {
-          dispatch({
-            type: EDITAR_COBERTURAS_RECETA_FAIL,
-            payload: {},
-          });
-          let res = {};
-          if (!!e.response) {
-            res = e.response;
-          }
-          return res;
-        });
-    };
-  } catch (e) {
-    return async function (dispatch) {
-      dispatch({
-        type: EDITAR_COBERTURAS_RECETA_FAIL,
-      });
-      console.log(e);
-    };
-  }
-}
-
-export function descargarRecetaCita(id) {
-  return async (dispatch) => {
-    try {
-      dispatch({ type: DESCARGAR_RECETA_CITA });
-      let token = localStorage.getItem("token");
-      return axios
-        .post(
-          server + "/citas/descargarRecetaCita",
-          { id },
-          {
-            responseType: "blob",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((response) => {
-          dispatch({
-            type: DESCARGAR_RECETA_CITA_SUCCESS,
-            payload: response.data,
-          });
-          return response;
-        })
-        .catch((e) => {
-          dispatch({ type: DESCARGAR_RECETA_CITA_FAIL, payload: {} });
-          let res_1 = {};
-          if (!!e.response) {
-            res_1 = e.response;
-          }
-          return res_1;
-        });
-    } catch (error) {
-      dispatch({ type: DESCARGAR_RECETA_CITA_FAIL, payload: {} });
-      return error;
-    }
-  };
-}
-
-export function registrarCoberturasReceta(data, idRegistro, username) {
-  try {
-    return async function (dispatch) {
-      dispatch({ type: REGISTRAR_COBERTURAS_RECETA });
-      let token = localStorage.getItem("token");
-      return axios
-        .post(
-          server + "/citas/registrarCoberturasReceta",
-          {
-            data,
-            idCita: idRegistro,
-            username,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          dispatch({
-            type: REGISTRAR_COBERTURAS_RECETA_SUCCESS,
-            payload: res.data,
-          });
-          return res;
-        })
-        .catch((e) => {
-          dispatch({
-            type: REGISTRAR_COBERTURAS_RECETA_FAIL,
-            payload: {},
-          });
-          let res = {};
-          if (!!e.response) {
-            res = e.response;
-          }
-          return res;
-        });
-    };
-  } catch (e) {
-    return async function (dispatch) {
-      dispatch({
-        type: REGISTRAR_COBERTURAS_RECETA_FAIL,
-      });
-      console.log(e);
-    };
-  }
-}
-
-export function guardarInfoCitaServicio(idCita, data, username) {
-  try {
-    return async function (dispatch) {
-      dispatch({ type: GUARDAR_CITA });
-      let token = localStorage.getItem("token");
-      return axios
-        .post(
-          server + "/citas/guardarInfoCitaServicio",
-          {
-            idCita: idCita,
-            dataCita: data,
-            username: username,
-             },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          dispatch({
-                      type: GUARDAR_CITA_SUCCESS,
-                          payload: res.data,
-          });
-          return res;
-        })
-        .catch((e) => {
-          dispatch({ type: GUARDAR_CITA_FAIL, payload: {} });
-                let res = {};
-          if (!!e.response) {
-            res = e.response;
-          }
-          return res;
-        });
-    };
-  } catch (e) {
-      console.log(e);
-  }
-}
-
-export function inasistenciaCita(id, username) {
-  try {
-    return function (dispatch) {
-      dispatch({ type: EDITAR_CITA });
-      let token = localStorage.getItem("token");
-      return axios
-        .post(
-          server + "/citas/inasistenciaCita",
-          {
-            id,
-            username,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          dispatch({
-            type: EDITAR_CITA_SUCCESS,
-            payload: res.data,
-          });
-          return res;
-        })
-        .catch((e) => {
-          dispatch({ type: EDITAR_CITA_FAIL, payload: {} });
-          let res = {};
-          if (!!e.response) {
-            res = e.response;
-          }
-          return res;
-        });
-    };
-  } catch (e) {
-    console.log(e);
   }
 }
